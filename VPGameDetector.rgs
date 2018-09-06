@@ -1,0 +1,25 @@
+HKCR
+{
+	VPGameDetector.IVPGameDetector.1 = s 'VP Game Detector Class'
+	{
+		CLSID = s '{E186B192-54BE-471b-A982-9C9C97967873}'
+	}
+	VPGameDetector.IVPGameDetector = s 'VP Game Detector Class'
+	{
+		CLSID = s '{E186B192-54BE-471b-A982-9C9C97967873}'
+		CurVer = s 'VPGameDetector.IVPGameDetector.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E186B192-54BE-471b-A982-9C9C97967873} = s 'VP Game Detector Class'
+		{
+			ProgID = s 'VPGameDetector.IVPGameDetector.1'
+			VersionIndependentProgID = s 'VPGameDetector.IVPGameDetector'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+			}
+			'TypeLib' = s '{7133DC7E-96AD-4b71-978E-34D5DB63BDDC}'
+		}
+	}
+}

@@ -1,0 +1,91 @@
+
+*****************************************
+******** Required API Declaration *******
+*****************************************
+
+Public Declare Function GetVolumeInformation Lib "kernel32" Alias _
+    "GetVolumeInformationA" (ByVal lpRootPathName As String, _
+    ByVal lpVolumeNameBuffer As String, ByVal nVolumeNameSize As Long, _
+    lpVolumeSerialNumber As Long, lpMaximumComponentLength As Long, _
+    lpFileSystemFlags As Long, ByVal lpFileSystemNameBuffer As String, _
+    ByVal nFileSystemNameSize As Long) As Long
+
+
+******************************************
+****** Volume Information Function *******
+******************************************
+
+Public Function VolumeSerialNumber() As Long
+    'first grab our volume information
+    Dim Serial As Long
+    Dim VName As String
+    Dim FSName As String
+    'Create buffers
+    VName = String$(255, Chr$(0))
+    FSName = String$(255, Chr$(0))
+    'Get the volume information
+    GetVolumeInformation "C:\", VName, 255, Serial, 0, 0, FSName, 255
+    'Strip the extra chr$(0)'s
+    VName = Left$(VName, InStr(1, VName, Chr$(0)) - 1)
+    FSName = Left$(FSName, InStr(1, FSName, Chr$(0)) - 1)
+    
+    VolumeSerialNumber = Serial
+End Function
+
+************************************
+****** Encryption Function *********
+************************************
+
+Public Function JoeEncrypt(ByVal key As Long) As Byte()
+    Dim key2Str As String
+    Dim keyLen As Integer
+    Dim keyDigit As Integer
+    Dim i As Integer
+    Dim EncryptedKey() As Byte
+    
+    key2Str = key
+    keyLen = Len(key2Str)
+    ReDim EncryptedKey(keyLen - 1)
+    
+    For i = 1 To keyLen
+        keyDigit = CInt(Mid(key2Str, i, 1))
+       
+        Select Case keyDigit
+            Case 0
+                keyDigit = 9
+            Case 1
+                keyDigit = 8
+            Case 2
+                keyDigit = 7
+            Case 3
+                keyDigit = 6
+            Case 4
+                keyDigit = 5
+            Case 5
+                keyDigit = 4
+            Case 6
+                keyDigit = 3
+            Case 7
+                keyDigit = 2
+            Case 8
+                keyDigit = 1
+            Case 9
+                keyDigit = 0
+        End Select
+       
+        EncryptedKey(i - 1) = keyDigit
+    Next i
+    
+    JoeEncrypt = EncryptedKey
+End Function
+
+
+*********************************************************
+******** How to create the vp game instance 101 *********
+*********************************************************
+
+    vpg.SetEventSink vpgEvents
+    vpg.AuthenticateClient JoeEncrypt(VolumeSerialNumber)
+    vpg.CreateGame GameCLSID
+
+//Note: AuthenticateClient must be successfully called before game will create

@@ -1,0 +1,284 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(7A258D17-01DA-4378-A02B-71E2409CC227),
+	dual,
+	nonextensible,
+	helpstring("IGame Interface"),
+	pointer_default(unique)
+]
+interface IGame: IDispatch
+{
+	[id(1), helpstring("method CreateGame")] 
+		HRESULT CreateGame([in] BSTR GameCLSID);
+	[propget, id(2), helpstring("property GetClassID")] 
+		HRESULT GetClassID([out, retval] BSTR* pVal);
+	[id(3), helpstring("method GetGameDetails")] 
+		HRESULT GetGameDetails([out] BSTR* Name, [out] BSTR* Info, [out] BSTR* SeatList, [out] BSTR* CanChangeSeat, [out] BSTR* CanSelectSeat, [out] SHORT* MinParticipants, [out] SHORT* MaxParticipants, [out] BSTR* Avatar);
+	[id(4), helpstring("method StartGame")] 
+		HRESULT StartGame([in] LONG Id, [in] BSTR Name, [in] LONG GroupId, [in] BSTR GroupName, [in] LONG LeaderId, [in] SHORT Capacity, [in] LONG Seat);
+	[id(5), helpstring("method SetEventSink")] 
+		HRESULT SetEventSink([in] IUnknown** pUnkEventSink);
+	[id(6), helpstring("method EndGame")] 
+		HRESULT EndGame(void);
+	[id(7), helpstring("method JoinGroup")] 
+		HRESULT JoinGroup([in] LONG Id, [in] BSTR Name, [in] LONG X, [in] LONG Y, [in] LONG GroupId, [in] BSTR GroupName);
+	[id(8), helpstring("method Send")] 
+		HRESULT Send([in] LONG Id, [in] BSTR Name, [in] SHORT Type, [in] LONG ToId, [in] SHORT SendType, [in] BSTR Message, [in,out] BSTR* Data);
+	[id(9), helpstring("method SendFromService")] 
+		HRESULT SendFromService([in] LONG Id, [in] SHORT Type, [in] LONG SrvSendType, [in] BSTR Message, [in,out] BSTR* Data, [in] LONG ReqId);
+	[id(10), helpstring("method EnumMembers")] 
+		HRESULT EnumMembers([in] LONG Current, [in] SHORT Level, [in] LONG Id, [in] BSTR Name, [in] SHORT Type, [in] LONG X, [in] LONG Y);
+	[id(11), helpstring("method LeaveGroup")] 
+		HRESULT LeaveGroup([in] LONG Id, [in] BSTR Name, [in] LONG GroupId, [in] BSTR GroupName);
+	[id(12), helpstring("method DestroyGame")] 
+		HRESULT DestroyGame(void);
+	[id(13), helpstring("method AuthenticateClient")]
+		HRESULT AuthenticateClient([in] VARIANT key);
+};
+
+[
+	object,
+	uuid(315A5253-0B46-493d-8856-C968FE8F7E44),
+	dual,
+	nonextensible,
+	helpstring("IGameDetector Interface"),
+	pointer_default(unique)
+]
+interface IGameDetector : IDispatch
+{
+	[propget, id(1), helpstring("property GameNames")] 
+		HRESULT GameNames([out, retval] VARIANT* pVal);
+	[id(2), helpstring("CLSID from GameName")]
+		HRESULT CLSIDFromGameName([in] BSTR GameName, [out] BSTR* GameCLSID);
+};
+
+[
+	object,
+	uuid(9E2408E6-90BD-4538-A32D-169EB5858117),
+	dual,
+	nonextensible,
+	helpstring("IVPGameEvent Sink Interface"),
+	pointer_default(unique),
+	hidden
+]
+interface IVPGameEventSink : IDispatch
+{
+	[id(1), local, hidden]
+	void LeaveGroup();
+	[id(2), local, hidden]
+	void GetPresenceInfo(
+					long Id, 
+					BSTR* Nickname, 
+					BSTR* Fullname, 
+					BSTR* Location, 
+					BSTR* Email);
+	[id(3), local, hidden]
+	void GetParentWnd(long* hWnd);
+	[id(4), local, hidden]
+	void SetGameWnd(long hWnd);
+	[id(5), local, hidden]
+	void DupAvatar(
+					long ParentWnd, 
+					long Seat);
+	[id(6), local, hidden]
+	void SetAvatarPos(
+					long Seat, 
+					short Left, 
+					short Top, 
+					short Width, 
+					short Height);
+	[id(7), local, hidden]
+	void EnumMembers(
+					long Id, 
+					short MaxLevel);
+	[id(8), local, hidden]
+	void Send(
+					long Id, 
+					short SendType, 
+					BSTR Message, 
+					BSTR* Data);
+	[id(9), local, hidden]
+	void QueryService(
+					long* Id, 
+					short* Type);
+	[id(10), local, hidden]
+	void SendToService(
+					long ServiceId, 
+					long SrvSendType, 
+					BSTR Message, 
+					BSTR* Data, 
+					long ReqId);
+};
+
+[
+	object,
+	uuid(8ED92FC1-2CF0-4f56-B4D7-75696473B97D),
+	dual,
+	nonextensible,
+	helpstring("IVPGameEvent Sink Interface 2.0"),
+	pointer_default(unique),
+	hidden
+]
+interface IVPGameEventSink2 : IDispatch
+{
+	[id(1), local, hidden]
+    void DupAvatar(
+                    long ParentWnd, 
+                    long Seat);
+    [id(2), local, hidden]
+    void EnumMembers(
+                    long Id, 
+                    short MaxLevel);
+    [id(3), local, hidden]
+    void GetParentWnd(long* hWnd);
+    [id(4), local, hidden]
+    void GetPresenceInfo(
+                    long Id, 
+                    BSTR* Nickname, 
+                    BSTR* Fullname, 
+                    BSTR* Location, 
+                    BSTR* Email);
+    [id(5), local, hidden]
+    void LeaveGroup();
+    [id(6), local, hidden]
+    void QueryService(
+                    long* Id, 
+                    short* Type);
+    [id(7), local, hidden]
+    void Send(
+                    long Id, 
+                    short SendType, 
+                    BSTR Message, 
+                    BSTR* Data);
+    [id(8), local, hidden]
+    void SendToService(
+                    long ServiceId, 
+                    long SrvSendType, 
+                    BSTR Message, 
+                    BSTR* Data, 
+                    long ReqId);
+    [id(9), local, hidden]
+    void SetAvatarPos(
+                    long Seat, 
+                    short Left, 
+                    short Top, 
+                    short Width, 
+                    short Height);
+    [id(10), local, hidden]
+    void SetGameWnd(long hWnd);
+};
+
+[
+	object,
+	uuid(E223B3B1-10B8-4be8-A2B7-529254DB2D2D),
+	dual,
+	nonextensible,
+	helpstring("IGameEventSink Properties Interface"),
+	pointer_default(unique),
+	hidden
+]
+interface IGameEventSinkProperties : IUnknown
+{
+	[id(1)]
+	HRESULT SetCurGmConPntIID([in] BSTR CurGameConPntIID);
+	[id(2)]
+	HRESULT SetGmInterfaceType([in] SHORT GameInterfaceType);
+};
+
+[
+	uuid(7133DC7E-96AD-4b71-978E-34D5DB63BDDC),
+	version(1.2),
+	helpstring("VP Game Emulator 1.2 Type Library")
+]
+library VPGameEmulatorLib
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(6C8AB957-E347-4b99-AAD8-94C8253554D9),
+		helpstring("VPGameEmulator Events")
+	]
+	dispinterface _IVPGEmulatorEvents
+	{
+		properties:
+		methods:
+		[id(1)]
+        void LeaveGroup();
+		[id(2)]
+        void GetPresenceInfo(
+                        long Id, 
+                        BSTR* Nickname, 
+                        BSTR* Fullname, 
+                        BSTR* Location, 
+                        BSTR* Email);
+        [id(3)]
+        void GetParentWnd(long* hWnd);
+        [id(4)]
+        void SetGameWnd(long hWnd);
+        [id(5)]
+        void DupAvatar(
+                        long ParentWnd, 
+                        long Seat);
+        [id(6)]
+        void SetAvatarPos(
+                        long Seat, 
+                        short Left, 
+                        short Top, 
+                        short Width, 
+                        short Height);
+        [id(7)]
+        void EnumMembers(
+                        long Id, 
+                        short MaxLevel);
+        [id(8)]
+        void Send(
+                        long Id, 
+                        short SendType, 
+                        BSTR Message, 
+                        BSTR* Data);
+        [id(9)]
+        void QueryService(
+                        long* Id, 
+                        short* Type);
+        [id(10)]
+        void SendToService(
+                        long ServiceId, 
+                        long SrvSendType, 
+                        BSTR Message, 
+                        BSTR* Data, 
+                        long ReqId);
+	};
+
+	[
+		uuid(C4B93828-2377-4224-9DBA-0A173A463BE5),
+		helpstring("VPGameEventSink Class")
+	]
+	coclass VPGameEventSink
+	{
+		[default] interface IVPGameEventSink;
+		interface IVPGameEventSink2;
+		interface IGameEventSinkProperties;
+		[default, source] dispinterface _IVPGEmulatorEvents;
+	};
+
+	[
+		uuid(E186B192-54BE-471b-A982-9C9C97967873),
+		helpstring("GameDetector Class")
+	]
+	coclass VPGameDetector
+	{
+		[default] interface IGameDetector;
+	};
+
+	[
+		uuid(09CDEFC2-BAB8-4db1-B8B8-78BEA0CD06F3),
+		helpstring("Game Class")
+	]
+	coclass VPGame
+	{
+		[default] interface IGame;
+	};
+};

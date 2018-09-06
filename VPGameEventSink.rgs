@@ -1,0 +1,25 @@
+HKCR
+{
+	VPGameEventSink.IVPGameEventSink.1 = s 'VP Event Sink Class'
+	{
+		CLSID = s '{C4B93828-2377-4224-9DBA-0A173A463BE5}'
+	}
+	VPGameEventSink.IVPGameEventSink = s 'VP Event Sink Class'
+	{
+		CLSID = s '{C4B93828-2377-4224-9DBA-0A173A463BE5}'
+		CurVer = s 'VPGameEventSink.IVPGameEventSink.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {C4B93828-2377-4224-9DBA-0A173A463BE5} = s 'VP Event Sink Class'
+		{
+			ProgID = s 'VPGameEventSink.IVPGameEventSink.1'
+			VersionIndependentProgID = s 'VPGameEventSink.IVPGameEventSink'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+			}
+			'TypeLib' = s '{7133DC7E-96AD-4b71-978E-34D5DB63BDDC}'
+		}
+	}
+}

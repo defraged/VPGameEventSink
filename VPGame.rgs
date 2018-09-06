@@ -1,0 +1,25 @@
+HKCR
+{
+	VPGame.IVPGame.1 = s 'VP Game Class'
+	{
+		CLSID = s '{09CDEFC2-BAB8-4db1-B8B8-78BEA0CD06F3}'
+	}
+	VPGame.IVPGame = s 'VP Game Class'
+	{
+		CLSID = s '{09CDEFC2-BAB8-4db1-B8B8-78BEA0CD06F3}'
+		CurVer = s 'VPGame.IVPGame.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {09CDEFC2-BAB8-4db1-B8B8-78BEA0CD06F3} = s 'VP Game Class'
+		{
+			ProgID = s 'VPGame.IVPGame.1'
+			VersionIndependentProgID = s 'VPGame.IVPGame'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+			}
+			'TypeLib' = s '{7133DC7E-96AD-4b71-978E-34D5DB63BDDC}'
+		}
+	}
+}
